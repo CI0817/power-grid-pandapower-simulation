@@ -31,7 +31,7 @@ It is also useful when we want to know what happened when we add more loads or g
 ### How `pandapower` Perform Power Flow Analysis
 It uses the information (rated voltage, min, max values) of the components provided and put them in equations to make sure that at every single bus, the power flow into that bus is equal to the power flowing out of it. This obeys the fundamental law of physics applied to a power grid.
 
-The calculation follows in iterative process in which it uses an algorithm called Newton-Raphson to predict the power flow at each bus. At first, it starts with a flat guess of 1.0 pu and 0 degrees for every bus. It uses those values to calculate the power flow throughout the network, and compare it to what it should be (using the values provided with the components), and the difference in those values are called errors. This guessing iterative process continue until the errors becomes very small, at which point it is said that the solution has been converged.
+The calculation follows an iterative process in which it uses an algorithm called Newton-Raphson to predict the power flow at each bus. At first, it starts with a flat guess of 1.0 pu and 0 degrees for every bus. It uses those values to calculate the power flow throughout the network, and compare it to what it should be (using the values provided with the components), and the difference in those values are called errors. This guessing iterative process continues until the errors become very small, at which point it is said that the solution has been converged.
 
 Once the solution is converged, it calculates the final values such as the voltage at each bus, the laoding percentage of each line, etc.
 
