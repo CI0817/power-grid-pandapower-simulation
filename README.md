@@ -89,7 +89,7 @@ What to Check (Results):
 - Ideal: 1.0, the voltage is exactly at its specified rating.
 - Acceptable: 0.95 to 1.05, the standard range for normal operation (±5%).
     - In Australia, the official range at the connection point is 230V +10%/-6%.
-- Critical: <0.95 or >1.05, low voltage (brownout) can cause motors to run hot and inefficiently, and high voltage and permenantly damage components.
+- Critical: <0.95 or >1.05, low voltage (brownout) can cause motors to run hot and inefficiently, and high voltage and permanently damage components.
 
 **Line and Transformer Loading, `loading_percent`**: This shows you how much of a component's maximum capacity is being used. It is the most important indicator for preventing physical damage.
 - Ideal: <80%, it provides a good safety margin for unexpected changes in load or generation.
