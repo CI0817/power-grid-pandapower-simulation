@@ -83,3 +83,23 @@ What to Define (Inputs):
 
 What to Check (Results):
 - `p_mw` and `q_mvar` (`net.res_gen`): The actual active and reactive power the generator is producing to meet the grid's needs
+
+### Typical Values Bus Voltage, Line and Transformer Loading, and Voltage Angle Difference (Across a Line)
+**Bus Voltage, `vm_pu` in `net.res_bus`**: This tells you if the voltage level at your connection points is correct. The value is in "per-unit," which is a ratio of the actual voltage to the rated voltage.
+- Ideal: 1.0, the voltage is exactly at its specified rating.
+- Acceptable: 0.95 to 1.05, the standard range for normal operation (±5%).
+    - In Australia, the official range at the connection point is 230V +10%/-6%.
+- Critical: <0.95 or >1.05, low voltage (brownout) can cause motors to run hot and inefficiently, and high voltage and permenantly damage components.
+
+**Line and Transformer Loading, `loading_percent`**: This shows you how much of a component's maximum capacity is being used. It is the most important indicator for preventing physical damage.
+- Ideal: <80%, it provides a good safety margin for unexpected changes in load or generation.
+- Acceptable: 80%-100%, While acceptable, running consistently in this range gives you very little room for error or future growth.
+- Critical: >100%, it means the component is overloaded.
+    - For lines, they will overheat and physically sag, which can cause them to touch trees or the ground, leading to a dangerous short-circuit.
+    - For transformers, they will overheat, which rapidly degrades their internal insulation and can lead to catastrophic failure.
+
+**Voltage Angle Difference (Across a Line)**: This isn't a direct pandapower result, but you calculate it by taking the difference between the va_degree at a line's from_bus and to_bus. It is a key indicator of grid stability.
+- Ideal: <20 degrees, a small angle difference means power is flowing easily without stressing the system.
+- Acceptable: 20-30 degrees, this indicates that the connection is becoming stressed. It's working very hard to push power across.
+- Critical: >30 degrees, it can potentially lead to a blackout.
+    - A very large angle difference means the system is on the verge of losing synchronism. If the angle gets too large, the connection between the generator and the load breaks, which can trigger a cascading failure across the grid.
