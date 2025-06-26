@@ -1,8 +1,6 @@
 import pandapower as pp
 import pandapower.networks as nw
 from tabulate import tabulate
-import pandapower.plotting as plot
-
 # Display the network information
 def display_network_info(net):
     bus_df = net.bus
