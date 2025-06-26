@@ -18,8 +18,7 @@ This project can be separated into three stages:
 - Add renewable energy power into the energy mix and re-analysis the power usage.
 
 ## Key Parameters in `pandapower`
-**External Grid (`net.ext_grid`)**
-This is the connection to the main power grid and the reference for your whole system.
+**External Grid (`net.ext_grid`)**: This is the connection to the main power grid and the reference for your whole system.
 
 What to Define (Inputs):
 - `bus`: The bus where the main grid connects.
@@ -29,8 +28,7 @@ What to Define (Inputs):
 What to Check (Results):
 - `p_mw` (`net.res_ext_grid`): How much power your network is drawing from (positive value) or sending back to (negative value) the main grid.
 
-**Bus (`net.bus`)**
-These are the nodes or connection points in your network.
+**Bus (`net.bus`)**: These are the nodes or connection points in your network.
 
 What to Define (Inputs):
 - `vn_kv`: The rated voltage of the bus in kilovolts (kV). This is the most important property of a bus.
@@ -38,8 +36,7 @@ What to Define (Inputs):
 What to Check (Results):
 - `vm_pu` (`net.res_bus`): The actual voltage magnitude. Why? You must check that this is within a safe range (e.g., 0.95 to 1.05) to ensure equipment operates correctly.
 
-**Line (`net.line`)**
-These are the power lines connecting your buses.
+**Line (`net.line`)**: These are the power lines connecting your buses.
 
 What to Define (Inputs):
 - `from_bus` & `to_bus`: The start and end buses for the connection.
@@ -50,8 +47,7 @@ What to Check (Results):
 - `loading_percent` (`net.res_line`): How loaded the line is. Why? You must ensure this is below 100% to prevent overheating and physical damage.
 - Voltage Angle Difference: The difference in `va_degree` between the `from_bus` and `to_bus`. Why? A large difference indicates the line is under high stress and may be approaching its stability limit.
 
-**Load (`net.load`)**
-These represent the power consumers in your network.
+**Load (`net.load`)**: These represent the power consumers in your network.
 
 What to Define (Inputs):
 - `bus`: The bus where the load is connected.
@@ -60,8 +56,7 @@ What to Define (Inputs):
 What to Check (Results):
 The `p_mw` and `q_mvar` in `net.res_load` will simply reflect the power consumed, confirming the load was part of the simulation.
 
-**Generator (`net.gen`)**
-These are local power sources in your network, like a diesel generator or a power plant.
+**Generator (`net.gen`)**: These are local power sources in your network, like a diesel generator or a power plant.
 
 What to Define (Inputs):
 - `bus`: The bus where the generator is connected.
