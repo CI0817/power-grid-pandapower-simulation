@@ -19,8 +19,8 @@ def create_simple_network() -> pp.pandapowerNet:
     pp.create_transformer(net, hv_bus=bus1, lv_bus=bus2, std_type="0.4 MVA 20/0.4 kV", name="Transformer")
 
     # Create loads
-    pp.create_load(net, bus=bus2, p_mw=0.1, q_mvar=0.05, name="Load 1")
-    pp.create_load(net, bus=bus3, p_mw=0.15, q_mvar=0.07, name="Load 2")
+    pp.create_load(net, bus=bus2, p_mw=0.08, q_mvar=0.04, name="Load 1")
+    pp.create_load(net, bus=bus3, p_mw=0.07, q_mvar=0.03, name="Load 2")
 
     # Create lines
     pp.create_line(net, from_bus=bus2, to_bus=bus3, length_km=0.1, std_type="NAYY 4x50 SE", name="Line")
