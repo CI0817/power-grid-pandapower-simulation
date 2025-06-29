@@ -1,0 +1,3 @@
+# Ignore these files or directories
+# They are not part of the project or are auto-generated files
+__pycache__
