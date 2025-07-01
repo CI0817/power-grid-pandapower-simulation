@@ -14,9 +14,9 @@ The expected learning outcomes:
 
 This project aims to:
 
-- Simulate the power usage of a small network
-- Simulate short-circuit fault at various points in the network and analyse their effects
-- Incorporate renewable energy into the town and re-analyse the power consumption
+- Simulate the power usage of a small network.
+- Simulate short-circuit fault at various points in the network and analyse their effects.
+- Incorporate renewable energy into the town and re-analyse the power consumption.
 
 ### Project Stages
 
@@ -129,4 +129,50 @@ What to Check (Results):
 - Critical: >30 degrees, it can potentially lead to a blackout.
   - A very large angle difference means the system is on the verge of losing synchronism. If the angle gets too large, the connection between the generator and the load breaks, which can trigger a cascading failure across the grid.
 
-### Line and Tranformer Standard Types
+### Complex Network Setup
+
+A complex network, like Melbourne's power grid, can we separated into four layers:
+
+1. **Transmission Network**
+
+This network transports power from large generators (far outside of the city) to the outskirt of the city.
+
+- **Voltage**: Very high voltages, typically 220,000 Volts (220 kV) or 500,000 Volts (500 kV).
+
+- **Key Components**:
+  - Large Generators: Power stations (e.g., gas, renewables) that produce electricity. This is known as `External Grid` or `Generator` in `pandapower`.
+  - Transmission Lines: The large, high-strung power lines in rural areas and along freeways. These are known as `Lines` in `pandapower`.
+  - Terminal Stations: Major hubs that connect the transmission lines and begin the process of stepping down the voltage. This is the connection point between Transmission Network and Sub-transmission Network. These are collections of `Transformers` and `Buses` in `pandapower`.
+
+2. **Sub-Transmission Network**
+
+This network distributes power across large areas of the city to local zone substations.
+
+- **Voltage**: High voltages, typically 66,000 Volts (66 kV).
+
+- **Key Components**:
+  - High-Voltage Transformers: Step voltage down from 220 kV to 66 kV; these transformers are in the terminal stations.
+  - Sub-Transmission Lines: These lines feed the zone substations. They are also known as `Lines` in `pandapower` but with different electrical characteristics from the main transmission lines.
+  - Zone Substations: The connection point between Sub-transmission Network and Distribution Network.
+
+3. **Distribution Network**
+
+This network runs through suburbs and commercial areas.
+
+- **Voltage**: Medium voltage, typically 11,000 Volts (11 kV) or 22,000 Volts (22 kV).
+
+- **Key Components**:
+  - Medium-Voltage Transformers: Step voltage down from 66 kV to 22 kV or 11 kV; these transformers are in the zone substations.
+  - Distribution Feeders: These are the power lines on the streets, running from pole to pole.
+
+4. **Low Voltage (LV) Network**
+
+This is the final stage. Small transformers on power poles step the medium voltage down to the level used in homes nad businesses.
+
+- **Voltage**: Low voltage, 400 Volts (three-phase) or 230 Volts (single-phase).
+
+- **Key Components**:
+  - Distribution Transformers: Small pole-top transformers that step 11/22 kV down to 0.4 kV.
+  - LV Lines: The final cables that connect from the pole to houses.
+  - Loads: The electricity consumers, like houses, offices, and factories. These are known as `Loads` in `pandapower`.
+  - Rooftop Solar: Small, distributed generators. These are known as `Static Generators (sgen)` in `pandapower`.

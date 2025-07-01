@@ -161,7 +161,7 @@ def check_line_voltage_angle(net: pp.pandapowerNet) -> None:
     else:
         print("All voltage angle differences are within the acceptable range (<20 degrees).\n")
 
-def run_diagnosis(net: pp.pandapowerNet, scenario_name="") -> None:
+def run_diagnosis(net: pp.pandapowerNet, scenario_name="") -> pp.pandapowerNet:
     """
     Run all checks and diagnostics on the pandapower network.
     """
@@ -180,3 +180,4 @@ def run_diagnosis(net: pp.pandapowerNet, scenario_name="") -> None:
         print("Successfully ran power flow analysis and performed diagnosis.\n")
     else:
         print("Power flow did not converge, skipping further checks.\n")
+    return net
