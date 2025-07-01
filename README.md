@@ -128,3 +128,5 @@ What to Check (Results):
 - Acceptable: 20-30 degrees, this indicates that the connection is becoming stressed. It's working very hard to push power across.
 - Critical: >30 degrees, it can potentially lead to a blackout.
   - A very large angle difference means the system is on the verge of losing synchronism. If the angle gets too large, the connection between the generator and the load breaks, which can trigger a cascading failure across the grid.
+
+### Line and Tranformer Standard Types

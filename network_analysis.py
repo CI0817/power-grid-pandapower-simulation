@@ -120,11 +120,11 @@ def check_transformer_loading(net: pp.pandapowerNet) -> None:
 
     if not overload_transformers.empty:
         print("Overloaded transformers detected (>100):")
-        print(tabulate(overload_transformers[['loading_percent', 'trafo']], headers='keys', tablefmt='pretty'))
+        print(tabulate(overload_transformers[['loading_percent']], headers='keys', tablefmt='pretty'))
         print("")
     elif not warning_transformers.empty:
         print("Transformers with high loading (80-100):")
-        print(tabulate(warning_transformers[['loading_percent', 'trafo']], headers='keys', tablefmt='pretty'))
+        print(tabulate(warning_transformers[['loading_percent']], headers='keys', tablefmt='pretty'))
         print("")
     else:
         print("All transformers are within the acceptable loading range (<80%).\n")
