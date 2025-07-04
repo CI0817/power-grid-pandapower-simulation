@@ -50,7 +50,7 @@ def plot_network(net: pp.pandapowerNet):
     Plot the network using pandapower's simple_plot function.
     """
     print("======================================================")
-    print("=================NETWORK PLOT=========================")
+    print("=====================NETWORK PLOT=====================")
     print("======================================================\n")
     print("Network plot will be displayed in a separate window.\n")
     simple_plot(net, plot_loads=True, plot_gens=True)
