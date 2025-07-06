@@ -1,6 +1,7 @@
 import pandas as pd
 import pandapower as pp
 from tabulate import tabulate
+import pandapower.contingency as pc
 
 def print_network_info(net: pp.pandapowerNet):
     """
@@ -172,3 +173,25 @@ def run_diagnosis(net: pp.pandapowerNet, scenario_name="") -> pp.pandapowerNet:
     else:
         print("Power flow did not converge, skipping further checks.\n")
     return net
+
+def run_contingency_analysis(net: pp.pandapowerNet):
+    """
+    Run a contingency analysis (N-1) on the network using the pandapower.contingency module.
+    """
+    print("\n======================================================")
+    print("==============RUNNING CONTINGENCY ANALYSIS============")
+    print("======================================================\n")
+
+    # 1. Define Contingencies (all single line and transformer outages)
+    contingencies = {}
+    if not net.line.empty:
+        contingencies["line"] = {"index": list(net.line.index)}
+    if not net.trafo.empty:
+        contingencies["trafo"] = {"index": list(net.trafo.index)}
+
+    # 2. Run Contingency Analysis
+    results = pc.run_contingency(net, nminus1_cases=contingencies)
+
+    print("\nBus results:\n", results['bus'])
+    print("\nLine results:\n", results['line'])
+    print("\nTransformer results:\n", results['trafo'])
