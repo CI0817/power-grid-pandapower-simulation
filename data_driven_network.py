@@ -60,14 +60,15 @@ if __name__ == '__main__':
     from network_config import complex_network_config
     import pandapower.shortcircuit as sc
     import pandas as pd
+    from tabulate import tabulate
 
     # --- 1. PRE-FAULT: NORMAL OPERATION ANALYSIS ---
-    print("--- 1. RUNNING NORMAL OPERATION DIAGNOSIS ---")
+    print("--- RUNNING NORMAL OPERATION DIAGNOSIS ---")
     net = create_network_from_config(complex_network_config)
     net = run_diagnosis(net, scenario_name="Normal Operation")
 
     # --- 2. FAULT SIMULATION: THREE-PHASE SHORT CIRCUIT ---
-    print("\n--- 2. SIMULATING A THREE-PHASE SHORT CIRCUIT ---")
+    print("\n--- SIMULATING A THREE-PHASE SHORT CIRCUIT ---")
     
     line_to_fault = 0 
     bus_to_fault = net.line.from_bus.at[line_to_fault]
@@ -78,14 +79,15 @@ if __name__ == '__main__':
     sc.calc_sc(net, bus=bus_to_fault, case='max', branch_results=True)
 
     # --- 3. POST-FAULT: ANALYZE THE RESULTS ---
-    print("\n--- 3. ANALYZING POST-FAULT CONDITIONS ---")
+    print("\n--- ANALYZING POST-FAULT CONDITIONS ---")
     
     print("\nShort Circuit Results for Buses:")
-    print(net.res_bus_sc)
+    print(tabulate(net.res_bus_sc[['ikss_ka']], headers='keys', tablefmt='pretty'))
     
     print("\nShort Circuit Results for Lines:")
-    print(net.res_line_sc)
+    print(tabulate(net.res_line_sc[['ikss_ka']], headers='keys', tablefmt='pretty'))
+
+    print("\nShort Circuit Results for Transformers:")
+    print(tabulate(net.res_trafo_sc[['ikss_hv_ka','ikss_lv_ka','vm_hv_pu','vm_lv_pu']], headers='keys', tablefmt='pretty'))
 
     print("\nAnalysis Complete.")
-
-    # https://gemini.google.com/app/ab1d03d939961c29
