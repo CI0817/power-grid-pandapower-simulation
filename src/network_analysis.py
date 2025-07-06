@@ -1,7 +1,6 @@
 import pandas as pd
 import pandapower as pp
 from tabulate import tabulate
-from pandapower.plotting import simple_plot
 
 def print_network_info(net: pp.pandapowerNet):
     """
@@ -45,15 +44,7 @@ def print_power_flow_results(net: pp.pandapowerNet):
     print("\nExternal Grid Results:")
     print(tabulate(net.res_ext_grid, headers='keys', tablefmt='pretty'))
 
-def plot_network(net: pp.pandapowerNet):
-    """
-    Plot the network using pandapower's simple_plot function.
-    """
-    print("======================================================")
-    print("=====================NETWORK PLOT=====================")
-    print("======================================================\n")
-    print("Network plot will be displayed in a separate window.\n")
-    simple_plot(net, plot_loads=True, plot_gens=True)
+
 
 def check_power_flow(net:pp.pandapowerNet) -> bool:
     """

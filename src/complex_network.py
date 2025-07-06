@@ -1,6 +1,4 @@
 import pandapower as pp
-from network_analysis import run_diagnosis, plot_network
-from tabulate import tabulate
 
 def create_complex_network(
     bus_voltage_pu=1.02,
@@ -102,7 +100,3 @@ def create_complex_network(
     
     return net
 
-if __name__ == "__main__":
-    complex_net = create_complex_network()
-    complex_net = run_diagnosis(complex_net, scenario_name="Complex Network")
-    plot_network(complex_net)

@@ -1,7 +1,7 @@
 
 import pandapower as pp
 
-def create_network_from_config(config):
+def create_data_driven_network(config):
     """
     Creates a pandapower network from a configuration dictionary.
 
@@ -54,40 +54,3 @@ def create_network_from_config(config):
         pp.create_sgen(net, bus=bus_mapping[sgen["bus"]], p_mw=sgen["p_mw"], q_mvar=sgen.get("q_mvar", 0), name=sgen.get("name"), sn_mva=sgen.get("sn_mva"), k=sgen.get("k"))
 
     return net
-
-if __name__ == '__main__':
-    from network_analysis import run_diagnosis, plot_network
-    from network_config import complex_network_config
-    import pandapower.shortcircuit as sc
-    import pandas as pd
-    from tabulate import tabulate
-
-    # --- 1. PRE-FAULT: NORMAL OPERATION ANALYSIS ---
-    print("--- RUNNING NORMAL OPERATION DIAGNOSIS ---")
-    net = create_network_from_config(complex_network_config)
-    net = run_diagnosis(net, scenario_name="Normal Operation")
-
-    # --- 2. FAULT SIMULATION: THREE-PHASE SHORT CIRCUIT ---
-    print("\n--- SIMULATING A THREE-PHASE SHORT CIRCUIT ---")
-    
-    line_to_fault = 0 
-    bus_to_fault = net.line.from_bus.at[line_to_fault]
-    
-    print(f"Applying a three-phase short circuit to Line {line_to_fault} at Bus {bus_to_fault}...\n")
-    
-    # Run the short circuit calculation, now including branch results
-    sc.calc_sc(net, bus=bus_to_fault, case='max', branch_results=True)
-
-    # --- 3. POST-FAULT: ANALYZE THE RESULTS ---
-    print("\n--- ANALYZING POST-FAULT CONDITIONS ---")
-    
-    print("\nShort Circuit Results for Buses:")
-    print(tabulate(net.res_bus_sc[['ikss_ka']], headers='keys', tablefmt='pretty'))
-    
-    print("\nShort Circuit Results for Lines:")
-    print(tabulate(net.res_line_sc[['ikss_ka']], headers='keys', tablefmt='pretty'))
-
-    print("\nShort Circuit Results for Transformers:")
-    print(tabulate(net.res_trafo_sc[['ikss_hv_ka','ikss_lv_ka','vm_hv_pu','vm_lv_pu']], headers='keys', tablefmt='pretty'))
-
-    print("\nAnalysis Complete.")

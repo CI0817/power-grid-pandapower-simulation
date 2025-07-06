@@ -11,42 +11,63 @@ This project uses the `pandapower` library to simulate and analyze electrical po
 
 ## Project Structure
 
-The project is organized into several Python scripts, each serving a specific purpose:
+The project is organized into the following directories:
 
--   `simple_network.py`: Defines a basic network with a single transformer and a few loads. It is ideal for understanding fundamental `pandapower` concepts and running simple what-if scenarios.
--   `complex_network.py`: Implements a more realistic, four-layered network (Transmission, Sub-Transmission, Distribution, and LV), inspired by a section of Melbourne's grid. This script showcases how to model complex, hierarchical systems.
--   `data_driven_network.py`: Demonstrates a best-practice approach where the network topology is defined in a separate configuration file (`network_config.py`). This script reads the configuration and builds the network, making it highly modular and easy to modify.
--   `network_config.py`: A configuration file containing the data (buses, lines, transformers, etc.) for the data-driven network. This separates the network data from the simulation logic.
--   `network_analysis.py`: A utility module containing a suite of diagnostic functions to check bus voltages, line/transformer loadings, and grid stability. It is used by the other scripts to perform health checks on the networks.
--   `case14.py`: A script that loads a standard IEEE 14-bus test case from the `pandapower` library, which is a common benchmark for power system analysis.
+-   `src/`: Contains the Python source code for the project.
+    -   `main.py`: The main entry point for running simulations.
+    -   `simple_network.py`: Defines a basic network.
+    -   `complex_network.py`: Implements a more realistic, four-layered network.
+    -   `data_driven_network.py`: Builds a network from a configuration file.
+    -   `case14.py`: Loads a standard IEEE 14-bus test case.
+    -   `network_analysis.py`: Contains functions for analyzing network health.
+-   `data/`: Contains data files for the project.
+    -   `network_config.json`: A JSON configuration file defining a network.
+
+## Getting Started
+
+### Prerequisites
+
+-   Python 3.6+
+-   pip
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/power-grid-pandapower-simulation.git
+    cd power-grid-pandapower-simulation
+    ```
+
+2.  Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 ## How to Run the Simulations
 
-To run any of the simulations, execute the desired Python script from your terminal. Each script has a main execution block (`if __name__ == "__main__":`) that runs a pre-defined scenario.
-
-### Running the Simple Network
-
-This script runs multiple scenarios to show the impact of changing loads, transformers, and line lengths.
+Use the `main.py` script to run the simulations. You can choose which simulation to run by passing a command-line argument.
 
 ```bash
-python simple_network.py
+python src/main.py <simulation_name>
 ```
 
-### Running the Complex Network
+Available simulations:
 
-This script simulates a multi-layered grid and performs a full diagnostic analysis.
+-   `simple`: Runs the simple network simulation.
+-   `complex`: Runs the complex network simulation.
+-   `data_driven`: Runs the data-driven network simulation using `data/network_config.json`.
+-   `case14`: Runs the IEEE 14-bus test case.
+
+### Examples
 
 ```bash
-python complex_network.py
+# Run the simple network simulation
+python src/main.py simple
+
+# Run the complex network simulation
+python src/main.py complex
 ```
 
-### Running the Data-Driven Network and Fault Analysis
-
-This is the most comprehensive example. It first runs a normal power flow analysis and then simulates a three-phase short circuit to demonstrate fault analysis.
-
-```bash
-python data_driven_network.py
-```
 
 ## Key Information
 
