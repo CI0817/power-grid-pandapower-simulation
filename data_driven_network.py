@@ -26,7 +26,14 @@ def create_network_from_config(config):
 
     # Create external grids
     for ext_grid in config.get("ext_grids", []):
-        pp.create_ext_grid(net, bus=bus_mapping[ext_grid["bus"]], vm_pu=ext_grid.get("vm_pu", 1.0), name=ext_grid.get("name"))
+        pp.create_ext_grid(net, 
+                           bus=bus_mapping[ext_grid["bus"]], 
+                           vm_pu=ext_grid.get("vm_pu", 1.0), 
+                           name=ext_grid.get("name"),
+                           s_sc_max_mva=ext_grid.get("s_sc_max_mva"),
+                           s_sc_min_mva=ext_grid.get("s_sc_min_mva"),
+                           rx_max=ext_grid.get("rx_max"),
+                           rx_min=ext_grid.get("rx_min"))
 
     # Create lines
     for line in config.get("lines", []):
@@ -44,17 +51,41 @@ def create_network_from_config(config):
 
     # Create static generators
     for sgen in config.get("sgens", []):
-        pp.create_sgen(net, bus=bus_mapping[sgen["bus"]], p_mw=sgen["p_mw"], q_mvar=sgen.get("q_mvar", 0), name=sgen.get("name"))
+        pp.create_sgen(net, bus=bus_mapping[sgen["bus"]], p_mw=sgen["p_mw"], q_mvar=sgen.get("q_mvar", 0), name=sgen.get("name"), sn_mva=sgen.get("sn_mva"), k=sgen.get("k"))
 
     return net
 
 if __name__ == '__main__':
     from network_analysis import run_diagnosis, plot_network
     from network_config import complex_network_config
+    import pandapower.shortcircuit as sc
+    import pandas as pd
 
-    # Create the network from the configuration
+    # --- 1. PRE-FAULT: NORMAL OPERATION ANALYSIS ---
+    print("--- 1. RUNNING NORMAL OPERATION DIAGNOSIS ---")
     net = create_network_from_config(complex_network_config)
+    net = run_diagnosis(net, scenario_name="Normal Operation")
 
-    # Run diagnosis and plot the network
-    net = run_diagnosis(net, scenario_name="Data-Driven Complex Network")
-    plot_network(net)
+    # --- 2. FAULT SIMULATION: THREE-PHASE SHORT CIRCUIT ---
+    print("\n--- 2. SIMULATING A THREE-PHASE SHORT CIRCUIT ---")
+    
+    line_to_fault = 0 
+    bus_to_fault = net.line.from_bus.at[line_to_fault]
+    
+    print(f"Applying a three-phase short circuit to Line {line_to_fault} at Bus {bus_to_fault}...\n")
+    
+    # Run the short circuit calculation, now including branch results
+    sc.calc_sc(net, bus=bus_to_fault, case='max', branch_results=True)
+
+    # --- 3. POST-FAULT: ANALYZE THE RESULTS ---
+    print("\n--- 3. ANALYZING POST-FAULT CONDITIONS ---")
+    
+    print("\nShort Circuit Results for Buses:")
+    print(net.res_bus_sc)
+    
+    print("\nShort Circuit Results for Lines:")
+    print(net.res_line_sc)
+
+    print("\nAnalysis Complete.")
+
+    # https://gemini.google.com/app/ab1d03d939961c29

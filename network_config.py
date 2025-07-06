@@ -39,7 +39,14 @@ complex_network_config = {
         }
     ],
     "ext_grids": [
-        {"name": "External Grid", "bus": "220kV Infeed", "vm_pu": 1.02}
+        {"name": "External Grid", 
+         "bus": "220kV Infeed", 
+         "vm_pu": 1.02,
+         "s_sc_max_mva": 2000, # Max short-circuit power of the grid
+         "s_sc_min_mva": 1500, # Min short-circuit power of the grid
+         "rx_max": 0.1,        # R/X ratio for max fault
+         "rx_min": 0.1         # R/X ratio for min fault
+        }
     ],
     "lines": [
         {"name": "Main Transmission Line", "from_bus": "220kV Infeed", "to_bus": "220kV Terminal", "length_km": 50, "std_type": "220kV_line"},
@@ -57,6 +64,6 @@ complex_network_config = {
         {"name": "Commercial Load", "bus": "LV Commercial", "p_mw": 0.25, "q_mvar": 0.1}
     ],
     "sgens": [
-        {"name": "Rooftop Solar", "bus": "LV Residential", "p_mw": 0.05}
+        {"name": "Rooftop Solar", "bus": "LV Residential", "p_mw": 0.05, "sn_mva": 0.06, "k": 1.2}
     ]
 }

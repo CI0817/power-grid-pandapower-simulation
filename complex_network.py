@@ -106,5 +106,3 @@ if __name__ == "__main__":
     complex_net = create_complex_network()
     complex_net = run_diagnosis(complex_net, scenario_name="Complex Network")
     plot_network(complex_net)
-
-    # print(tabulate(complex_net.res_trafo[['loading_percent']], headers='keys', tablefmt='pretty'))

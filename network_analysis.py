@@ -112,7 +112,7 @@ def check_transformer_loading(net: pp.pandapowerNet) -> None:
     Check if transformer loadings are within the acceptable range: Ideal is < 80%, acceptable is < 100%.
     """
     print("======================================================")
-    print("================TRANSFORMER LOADING CHECK=============")
+    print("==============TRANSFORMER LOADING CHECK===============")
     print("======================================================\n")
     transformer_loading = net.res_trafo.loading_percent
     overload_transformers = net.res_trafo[transformer_loading > 100]
@@ -134,7 +134,7 @@ def check_line_voltage_angle(net: pp.pandapowerNet) -> None:
     Checks the voltage angle difference across lines, indicating grid stress: Ideal is < 20 degs, acceptable is < 30 degs.
     """
     print("======================================================")
-    print("=================LINE VOLTAGE ANGLE CHECK=============")
+    print("===============LINE VOLTAGE ANGLE CHECK===============")
     print("======================================================\n")
     line_data = []
     for i, line in net.line.iterrows():
