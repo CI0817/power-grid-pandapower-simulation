@@ -13,7 +13,7 @@ def create_data_driven_network(config):
     # Create buses
     bus_mapping = {}
     for bus_def in config.get("buses", []):
-        bus_id = pp.create_bus(net, name=bus_def["name"], vn_kv=bus_def["vn_kv"])
+        bus_id = pp.create_bus(net, name=bus_def["name"], vn_kv=bus_def["vn_kv"], max_vm_pu=bus_def.get("max_vm_pu", 1.05), min_vm_pu=bus_def.get("min_vm_pu", 0.95))
         bus_mapping[bus_def["name"]] = bus_id
 
     # Create standard line types
@@ -38,12 +38,12 @@ def create_data_driven_network(config):
     # Create lines
     for line in config.get("lines", []):
         pp.create_line(net, from_bus=bus_mapping[line["from_bus"]], to_bus=bus_mapping[line["to_bus"]],
-                      length_km=line["length_km"], std_type=line["std_type"], name=line.get("name"))
+                      length_km=line["length_km"], std_type=line["std_type"], name=line.get("name"), max_loading_percent=line.get("max_loading_percent", 100))
 
     # Create transformers
     for trafo in config.get("transformers", []):
         pp.create_transformer(net, hv_bus=bus_mapping[trafo["hv_bus"]], lv_bus=bus_mapping[trafo["lv_bus"]],
-                             std_type=trafo["std_type"], name=trafo.get("name"))
+                             std_type=trafo["std_type"], name=trafo.get("name"), max_loading_percent=trafo.get("max_loading_percent", 100))
 
     # Create loads
     for load in config.get("loads", []):
