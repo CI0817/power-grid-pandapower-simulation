@@ -37,6 +37,7 @@ def main():
         with open('data/network_config.json', 'r') as f:
             config = json.load(f)
         net = create_complex_network(config)
+        run_diagnosis(net, 'Contingency Analysis Network')
         run_contingency_analysis(net)
 
 
