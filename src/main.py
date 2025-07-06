@@ -10,12 +10,12 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from src.network_analysis import run_diagnosis, run_contingency_analysis
 from src.simple_network import create_simple_network
-from src.data_driven_network import create_data_driven_network
+from src.complex_network import create_complex_network
 from src.case14 import create_case14_network
 
 def main():
     parser = argparse.ArgumentParser(description="Power Grid Simulation Tool")
-    parser.add_argument('simulation', choices=['simple', 'data_driven', 'case14', 'contingency'], help='The simulation to run.')
+    parser.add_argument('simulation', choices=['simple', 'complex', 'case14', 'contingency'], help='The simulation to run.')
 
     args = parser.parse_args()
 
@@ -23,10 +23,10 @@ def main():
         net = create_simple_network()
         run_diagnosis(net, 'Simple Network')
         simple_plot(net, plot_loads=True, plot_sgens=True, plot_gens=True)
-    elif args.simulation == 'data_driven':
+    elif args.simulation == 'complex':
         with open('data/network_config.json', 'r') as f:
             config = json.load(f)
-        net = create_data_driven_network(config)
+        net = create_complex_network(config)
         run_diagnosis(net, 'Data-Driven Network')
         simple_plot(net, plot_loads=True, plot_sgens=True, plot_gens=True)
     elif args.simulation == 'case14':
@@ -36,7 +36,7 @@ def main():
     elif args.simulation == 'contingency':
         with open('data/network_config.json', 'r') as f:
             config = json.load(f)
-        net = create_data_driven_network(config)
+        net = create_complex_network(config)
         run_contingency_analysis(net)
 
 

@@ -1,7 +1,7 @@
 
 import pandapower as pp
 
-def create_data_driven_network(config):
+def create_complex_network(config):
     """
     Creates a pandapower network from a configuration dictionary.
 
