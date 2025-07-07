@@ -246,10 +246,7 @@ The primary function is `sc.calc_sc()`, which simulates a fault at a specified l
 
 When you run `sc.calc_sc(net, bus=bus_index)`, `pandapower` simulates a bolted three-phase short-circuit at the specified bus. This is the most severe type of fault, where all three electrical phases are shorted together, resulting in the maximum possible fault current.
 
-The calculation determines two key things:
-
-1.  **Initial Symmetrical Short-Circuit Current (`ikss_ka`)**: This is the maximum current that flows at the very instant the fault occurs. It's critical for ensuring that circuit breakers are rated high enough to interrupt the fault safely. If a breaker's rating is too low, it can fail catastrophically.
-2.  **Post-Fault Voltages (`vm_pu`)**: The simulation calculates the voltage at every bus in the network *during* the fault. Typically, the voltage at the faulted bus drops to zero, while voltages at nearby buses also drop significantly. This helps identify the extent of the voltage collapse and which parts of the network will be most affected.
+The calculation determines the **Initial Symmetrical Short-Circuit Current (`ikss_ka`)**. This is the maximum current that flows at the very instant the fault occurs. It's critical for ensuring that circuit breakers are rated high enough to interrupt the fault safely. If a breaker's rating is too low, it can fail catastrophically.
 
 #### How to Use `sc.calc_sc`
 
@@ -260,11 +257,7 @@ Using the function is straightforward. Here’s a typical workflow, as seen in `
     import pandapower.shortcircuit as sc
     ```
 
-2.  **Identify the Fault Location**: Decide where the fault will occur. In the example, the fault is applied at a bus connected to a specific line.
-    ```python
-    # The bus where the fault will be simulated
-    bus_to_fault = net.line.from_bus.at[line_index]
-    ```
+2.  **Identify the Fault Location**: Decide where the fault will occur. This is by specific the bus index where the fault will occur.
 
 3.  **Run the Calculation**: Call `sc.calc_sc()` with the network object and the fault location.
     ```python
@@ -280,17 +273,10 @@ Using the function is straightforward. Here’s a typical workflow, as seen in `
 After running the calculation, `pandapower` stores the results in new dataframes attached to your `net` object:
 
 1.  **Bus Results (`net.res_bus_sc`)**: This dataframe contains the fault analysis results for each bus.
-    -   `ikss_ka`: The initial symmetrical short-circuit current in kiloamperes (kA). This is the most important value for checking equipment ratings. A high value at a bus means any equipment connected there must be able to withstand that current.
-    -   `vm_pu`: The voltage magnitude at each bus *during* the fault. You will see that the voltage at the faulted bus is close to 0, and nearby buses have severely depressed voltages.
+    -   `ikss_ka`: The initial symmetrical short-circuit current in kiloamperes (kA). You must ensure that any equipment connected to that bus, especially circuit breakers, can withstand this current without failing.
 
 2.  **Line Results (`net.res_line_sc`)**: This dataframe shows the currents flowing through the power lines during the fault.
     -   `ikss_ka`: The fault current flowing through each line. This is critical for understanding how the fault current spreads through the network. You can identify which lines are carrying the most dangerous currents and might need enhanced protection.
 
-3.  **Transformer Results (`net.res_trafo_sc`)**: If you have transformers, this dataframe shows the fault currents they are subjected to. This is essential for ensuring your transformers are protected.
-
-By analyzing these results, you can answer critical questions like:
-- Are my circuit breakers and other protective devices rated to handle the worst-case fault?
-- How far does the voltage collapse extend from the fault location?
-- Which lines and transformers are most stressed during a fault, and do they have adequate protection?
-
-This analysis is fundamental to designing a safe and reliable power grid.
+3.  **Transformer Results (`net.res_trafo_sc`)**: If you have transformers, this dataframe shows the fault currents they are subjected to. 
+    -   `ikss_hv_ka` and `ikss_lv_ka`: The fault current on the high-voltage (HV) and low-voltage (LV) side of the transformer, respectively. It's common to see a low current on the HV side and a very high current on the low-voltage side. This is because transformers convert voltage and current. A step-down in voltage results in a massive step-up in current, which is critical for rating protective devices on the low-voltage side.

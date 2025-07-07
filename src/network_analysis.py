@@ -230,10 +230,15 @@ def run_shortcircuit_analysis(net: pp.pandapowerNet, bus=None):
     print("=============RUNNING SHORT-CIRCUIT ANALYSIS===========")
     print("======================================================\n")
 
+    if bus is not None:
+        print(f"Running short-circuit analysis for bus {bus}...\n")
+    else:
+        print("Running short-circuit analysis for all buses...\n")
+
     calc_sc(net,bus=bus, branch_results=True)
 
     # Print results
-    print("Short-Circuit Bus Results:")
+    print("\nShort-Circuit Bus Results:")
     print(tabulate(net.res_bus_sc, headers='keys', tablefmt='pretty'))
     print("\nShort-Circuit Line Results:")
     print(tabulate(net.res_line_sc[['ikss_ka','vm_from_pu','vm_to_pu']], headers='keys', tablefmt='pretty'))
