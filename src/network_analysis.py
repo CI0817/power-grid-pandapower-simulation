@@ -217,3 +217,25 @@ def _print_contingency_results(results: dict):
         print(tabulate(trafo_df, headers='keys', tablefmt='pretty'))
     else:
         print("\nNo transformer contingency results to display.")
+
+def run_shortcircuit_analysis(net: pp.pandapowerNet, bus=None):
+    """
+    Run a short-circuit analysis on the network.
+    
+    :param net: The pandapower network object.
+    :param bus: Optional; if provided, only the specified bus will be analyzed.
+    """
+    from pandapower.shortcircuit import calc_sc
+    print("\n======================================================")
+    print("=================RUNNING SHORT-CIRCUIT ANALYSIS=======")
+    print("======================================================\n")
+
+    calc_sc(net,bus=bus, branch_results=True)
+
+    # Print results
+    print("Short-Circuit Bus Results:")
+    print(tabulate(net.res_bus_sc, headers='keys', tablefmt='pretty'))
+    print("\nShort-Circuit Line Results:")
+    print(tabulate(net.res_line_sc[['ikss_ka','vm_from_pu','vm_to_pu']], headers='keys', tablefmt='pretty'))
+    print("\nShort-Circuit Transformer Results:")
+    print(tabulate(net.res_trafo_sc[['ikss_hv_ka','ikss_lv_ka','vm_hv_pu','vm_lv_pu']], headers='keys', tablefmt='pretty'))
