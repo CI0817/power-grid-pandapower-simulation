@@ -227,7 +227,7 @@ def run_shortcircuit_analysis(net: pp.pandapowerNet, bus=None):
     """
     from pandapower.shortcircuit import calc_sc
     print("\n======================================================")
-    print("=================RUNNING SHORT-CIRCUIT ANALYSIS=======")
+    print("=============RUNNING SHORT-CIRCUIT ANALYSIS===========")
     print("======================================================\n")
 
     calc_sc(net,bus=bus, branch_results=True)
