@@ -1,6 +1,5 @@
 import argparse
 import json
-import pandapower as pp
 from pandapower.plotting import simple_plot
 import sys
 import os
