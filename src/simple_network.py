@@ -39,15 +39,3 @@ def create_simple_network(
 
     return net
 
-if __name__ == "__main__":
-    # Scenario 1: Original Network Configuration
-    net_original = create_simple_network()
-    na.run_diagnosis(net_original, scenario_name="Original Network Scenario")
-
-    # Scenario 2: Increased Load
-    net_increased_load = create_simple_network(load1_p_mw=0.15, load2_p_mw=0.1)
-    na.run_diagnosis(net_increased_load, scenario_name="Increased Load Scenario")
-
-    # Scenario 3: Different Transformer
-    net_different_transformer = create_simple_network(transformer_std_type="0.63 MVA 20/0.4 kV")
-    na.run_diagnosis(net_different_transformer, scenario_name="Different Transformer Scenario")

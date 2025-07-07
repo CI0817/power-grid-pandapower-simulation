@@ -1,0 +1,6 @@
+pandapower
+pandas
+tabulate
+matplotlib
+pandapower["all"]
+numba
