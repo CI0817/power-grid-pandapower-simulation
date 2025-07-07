@@ -53,10 +53,11 @@ python src/main.py <simulation_name>
 
 Available simulations:
 
--   `simple`: Runs the simple network simulation.
--   `complex`: Runs the complex network simulation.
--   `data_driven`: Runs the data-driven network simulation using `data/network_config.json`.
+-   `simple`: Runs the simple network simulation with a pre-built network.
+-   `complex`: Runs the complex network simulation using `data/network_config.json`.
 -   `case14`: Runs the IEEE 14-bus test case.
+-   `contingency`: Runs a contingency analysis using `data/network_config.json`.
+-   `shortcircuit`: Runs a short-circuit analysis using `data/network_config.json` on all buses.
 
 ### Examples
 
@@ -280,3 +281,13 @@ After running the calculation, `pandapower` stores the results in new dataframes
 
 3.  **Transformer Results (`net.res_trafo_sc`)**: If you have transformers, this dataframe shows the fault currents they are subjected to. 
     -   `ikss_hv_ka` and `ikss_lv_ka`: The fault current on the high-voltage (HV) and low-voltage (LV) side of the transformer, respectively. It's common to see a low current on the HV side and a very high current on the low-voltage side. This is because transformers convert voltage and current. A step-down in voltage results in a massive step-up in current, which is critical for rating protective devices on the low-voltage side.
+
+## Lessons Learnt and Future Improvements
+
+During my time working on this project, I've learnt about the basics of `pandapower`, especially the use of its power flow analysis tool, contingency calculations, and short-circuit analysis. In addition, I've learnt about the general structure of the electricity grid in Australia, especially in Victoria. Upon researching about the overview of the grid structure, I've also learnt about the National Electricity Market (NEM) and the Australia Energy Market Operator (AEMO) which operates the day-to-day electricity market, ensuring that the consumers can benefit from the most cost-effective energy around the clock.
+
+This project acts as a stepping stone toward more advanced analyses. I am able to test the use of basic functions provided by `pandapower` and implemented simple functions to interpret the results, but I believe that future improvements can be made to be able to analyse those results and the data that we get inn more meaningful ways. Therefore, these are some ideas to build upon the current project:
+-   **Create a more complex and realistic network**: The current complex network that I have is not really complex compared to the IEEE 14-bus system that I've used in the initial phase to test and analyse `pandapower` tools. So, we can build upon this network, adding more buses, lines, loads, and generators. Plus, this can be done quite easily since the `create_complex_network` function accepts a JSON format network configuration file. On top of this, we can try to look up publicly available data to make a more realistic network. I saw that AEMO provides map of transmission lines and substations, so it might be worthwhile to model the network based on that: [AEMO Visualisation Map](https://www.aemo.com.au/aemo/apps/visualisations/map.html).
+-   **Focus on renewable energy**: Even though I've added one solar rooftop, as as a static generator `sgen`, it does not contribute significantly to the network. So, along with making the network more complex, we can add more solar panels or wind farms as generators and analyse their effects on the grid when there are varying sunlight and/or wind speed. This can be beneficial in real-life since the sun does not always and the wind does not always blow.
+-   **Consider adding protection system**: The current network does not simulate any protection mechanism such as relays and circuit breakers which are crucial during short-circuiting. We can add those to make the network more realistic and robust to faults.
+-   **Create an interactive dashboard**: Right now, the results and analysis are printed onto the command line, but we can add a more advanced feature by creating a web-based interactive site that displays the network graphs, the analysis results, and allows users to modify the key parameters in the network in see its effects in real-time. I believe that this would make it a really cool simulation tool.
